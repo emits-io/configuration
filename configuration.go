@@ -74,22 +74,21 @@ type Regex struct {
 }
 
 // Load attemps to open FILE and returns any errors from Validate()
-func (c *Configuration) Load() []error {
-	var errors []error
+func (c *Configuration) Load() error {
 	jsonFile, err := os.Open(FILE)
 	if err != nil {
-		return append(errors, err)
+		return err
 	}
 	defer jsonFile.Close()
 	byteValue, err := ioutil.ReadAll(jsonFile)
 	if err != nil {
-		return append(errors, err)
+		return err
 	}
 	if json.Unmarshal(byteValue, &c) != nil {
-		return append(errors, err)
+		return err
 	}
 	jsonFile.Close()
-	return c.Validate()
+	return nil
 }
 
 // Validate returns all known validation errors at once, rather than one at a time
@@ -206,6 +205,16 @@ func (c *Configuration) FindTask(name string) *Task {
 	for _, task := range c.Task {
 		if task.Name == name {
 			return &task
+		}
+	}
+	return nil
+}
+
+// FindScript returns the Script if found or nil if not found; used to validate Script references
+func (c *Configuration) FindScript(name string) *Script {
+	for _, script := range c.Script {
+		if script.Name == name {
+			return &script
 		}
 	}
 	return nil
