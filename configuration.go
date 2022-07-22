@@ -50,6 +50,14 @@ type File struct {
 	Type   []string `json:"type,omitempty"`
 	Parse  *Parse   `json:"parse,omitempty"`
 	Modify *Modify  `json:"modify,omitempty"`
+	Audit  []*Audit `json:"audit,omitempty"`
+}
+
+// Audit contains all the options used to establish an audit on File
+type Audit struct {
+	Path    string   `json:"path,omitempty"`
+	Include []string `json:"include,omitempty"`
+	Exclude []string `json:"exclude,omitempty"`
 }
 
 // Modify contains all the options used to establish a modify on File

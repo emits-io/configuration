@@ -62,6 +62,13 @@ func TestConfiguration_Write(t *testing.T) {
 						},
 					},
 				},
+				Audit: []*configuration.Audit{
+					{
+						Path:    "./audit.json",
+						Include: []string{"*"},
+						Exclude: []string{"/ignore/*"},
+					},
+				},
 			},
 		},
 	}
